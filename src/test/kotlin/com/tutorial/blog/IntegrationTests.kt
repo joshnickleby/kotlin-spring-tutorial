@@ -1,5 +1,6 @@
 package com.tutorial.blog
 
+import org.apache.coyote.http11.Constants.a
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
@@ -23,6 +24,7 @@ class IntegrationTests(@Autowired val restTemplate: TestRestTemplate) {
 
   @Test
   fun `Assert blog page title, content, and status code`() {
+    println(">> Assert blog page title, content, and status code")
     val entity = restTemplate.getForEntity<String>("/")
     assertThat(entity.statusCode).isEqualTo(HttpStatus.OK)
     assertThat(entity.body).contains("<h1>Blog</h1>")
@@ -30,7 +32,11 @@ class IntegrationTests(@Autowired val restTemplate: TestRestTemplate) {
 
   @Test
   fun `Assert article page title, content, and status code`() {
-    println(">> TODO")
+    println(">> Assert article page title, content, and status code")
+    val entity = restTemplate.getForEntity<String>("/article/2")
+    assertThat(entity.statusCode).isEqualTo(HttpStatus.OK)
+    assertThat(entity.body).contains("Reactor Aluminum has landed",
+        "<a href=\"https://projectreactor.io/\">https://projectreactor.io/</a>")
   }
 
   @AfterAll
